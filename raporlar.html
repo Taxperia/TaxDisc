@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'">
+<title>TaxDisc — Depolama Raporu</title>
+<link rel="icon" href="assets/icon.png">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="reports">
+<div class="window" id="window">
+  <aside class="sidebar" id="sidebar"></aside>
+
+  <main class="main">
+    <header class="main-head">
+      <div class="nav-arrows">
+        <button class="icon-btn" disabled></button>
+        <button class="icon-btn" disabled></button>
+      </div>
+      <div class="main-title">TaxDisc</div>
+      <div class="head-spacer"></div>
+    </header>
+
+    <div class="page scroll-page">
+      <div class="page-head">
+        <div>
+          <h1>Depolama Raporu</h1>
+          <div class="rel-path">Klasör boyutları, dosya türleri ve sürücü kullanımı</div>
+        </div>
+        <div class="no-print" style="display:flex;gap:8px;align-items:center">
+          <select class="sect" id="period" style="height:32px">
+            <option value="3">Son 3 Ay</option>
+            <option value="6" selected>Son 6 Ay</option>
+            <option value="12">Son 12 Ay</option>
+          </select>
+          <button class="btn" id="btn-export" style="height:32px"><span class="ic"></span>Dışa Aktar (CSV)</button>
+          <button class="btn" id="btn-print" style="height:32px"><span class="ic"></span>Yazdır</button>
+        </div>
+      </div>
+
+      <div class="crumbs-band">
+        <nav class="crumbs"><span class="cur" id="crumb-root">—</span></nav>
+        <div class="stat-row">
+          <div class="stat"><span>Toplam Kullanım</span><b id="r-total">—</b></div>
+          <div class="stat"><span>Dönem Değişimi</span><b id="r-chg">—</b></div>
+          <div class="stat"><span>Ortalama Dosya</span><b id="r-avgfile">—</b></div>
+          <div class="stat"><span>Kapsam</span><b id="r-folders" style="font-size:13px;line-height:1.5">—</b></div>
+        </div>
+      </div>
+
+      <div class="page-body">
+        <div class="sum-grid cols-3" style="margin-bottom:14px">
+          <div class="sum-card accent">
+            <span>Büyüme Karşılaştırması</span>
+            <b id="r-fastest">—</b>
+            <small id="r-fastest-sub" class="up">—</small>
+          </div>
+          <div class="sum-card">
+            <span>Disk Doygunluğu</span>
+            <b id="r-saturation">—</b>
+            <small id="r-capacity">Sürücü kapasitesi okunuyor</small>
+          </div>
+          <div class="sum-card">
+            <span>Son Tarama</span>
+            <b id="r-scan" style="font-size:15px;line-height:1.6">—</b>
+            <small>TaxDisc tarafından oluşturuldu</small>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <h3><span class="ico"></span>En Büyük Klasörler</h3>
+            <div class="bar-list" id="folder-bars"></div>
+          </div>
+          <div class="card">
+            <h3><span class="ico"></span>Dosya Türlerine Göre Dağılım</h3>
+            <div class="donut-wrap">
+              <canvas id="ext-donut" data-size="180"></canvas>
+              <div class="legend" id="ext-legend"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:14px">
+          <h3><span class="ico"></span>Aylık Depolama Büyümesi <span id="growth-note" style="margin-left:auto;font-weight:400;font-size:11.5px;color:var(--text-3)">geçmiş tarama gerekir</span></h3>
+          <canvas id="growth-canvas" class="chart-canvas"></canvas>
+        </div>
+
+        <div class="card" style="padding:0;overflow:hidden;margin-bottom:14px">
+          <div class="table-scroll">
+          <table class="tbl">
+            <thead>
+              <tr>
+                <th>Klasör</th>
+                <th class="col-size">Boyut</th>
+                <th style="width:190px">Payı</th>
+                <th style="width:90px">Değişim</th>
+                <th style="width:130px">Trend</th>
+                <th class="col-mod">Değiştirilme</th>
+              </tr>
+            </thead>
+            <tbody id="report-body"></tbody>
+          </table>
+          </div>
+        </div>
+
+        <div class="notice in-list">
+          <span class="ico"></span>
+          <div class="n-text"><b id="report-note">Boyut, dosya sayısı ve tür dağılımı gerçek tarama verisinden hesaplanır.</b>
+            <div class="path" id="report-note-sub">Yalnızca son tarama saklanır. Mantıksal boyutlar, diskte ayrılan alandan farklı olabilir.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <aside class="inspector" id="inspector"></aside>
+</div>
+
+<script src="js/i18n.js"></script>
+<script src="js/icons.js"></script>
+<script src="js/data.js"></script>
+<script src="js/csv.js"></script>
+<script src="js/temp-rules.js"></script>
+<script src="js/common.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/scan-index.js"></script>
+<script src="js/scanner.js"></script>
+<script src="js/reports.js"></script>
+<script src="js/init-raporlar.js"></script>
+</body>
+</html>

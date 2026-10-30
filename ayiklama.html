@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'">
+<title>TaxDisc — Ayıklama Yığını</title>
+<link rel="icon" href="assets/icon.png">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="discard">
+<div class="window" id="window">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main">
+    <header class="main-head"><div class="main-title">TaxDisc</div></header>
+    <div class="page scroll-page">
+      <div class="page-head"><div><h1>Ayıklama Yığını</h1><div class="rel-path">Gözden geçirmek için işaretlediğiniz dosya ve klasörler</div></div></div>
+      <div class="crumbs-band"><nav class="crumbs"><span class="cur" id="plan-root"></span></nav>
+        <div class="stat-row"><div class="stat"><span>Öğe</span><b id="plan-count">0</b></div><div class="stat"><span>Planlanan Boyut</span><b id="plan-size">0 B</b></div></div>
+      </div>
+      <div class="page-body">
+        <div class="notice in-list"><div class="n-text"><b>Bu liste dosya silmez ve disk alanı boşaltmaz.</b><div class="path">Öğeleri Gezginde inceleyebilir, listeden çıkarabilir veya listeyi CSV olarak kaydedebilirsiniz. Aynı öğe iki kez sayılmaz. Yeni tarama başladığında önceki liste, tarama başarıyla tamamlanana kadar korunur.</div></div></div>
+        <div class="toolbar"><input class="filter-input" id="plan-search" aria-label="Ayıklama listesinde ara" placeholder="Ad veya yol ara"><span class="spacer"></span><button class="btn" id="plan-export">CSV İndir</button><button class="btn" id="plan-clear">Listeyi Boşalt</button></div>
+        <div class="card table-scroll"><table class="tbl"><thead><tr><th>Dosya / Klasör</th><th>Boyut</th><th>İşlemler</th></tr></thead><tbody id="plan-body"></tbody></table></div>
+        <div class="pagination" id="plan-pagination"></div>
+      </div>
+    </div>
+  </main>
+  <aside class="inspector" id="inspector"></aside>
+</div>
+<script src="js/i18n.js"></script>
+<script src="js/icons.js"></script>
+<script src="js/data.js"></script>
+<script src="js/csv.js"></script>
+<script src="js/common.js"></script>
+<script src="js/discard.js"></script>
+</body>
+</html>

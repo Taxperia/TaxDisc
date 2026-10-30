@@ -1,0 +1,108 @@
+name: Windows CI and Release
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: windows-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  verify:
+    runs-on: windows-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm run test:all
+      - run: npm audit --audit-level=low
+      - name: Build Windows distributions
+        if: github.event_name != 'pull_request'
+        run: npm run dist
+      - name: Test actual packaged executable
+        if: github.event_name != 'pull_request'
+        shell: pwsh
+        run: |
+          $env:TAXDISC_EXECUTABLE = Join-Path $pwd 'release/win-unpacked/TaxDisc.exe'
+          node test/electron-smoke.cjs
+      - name: Test actual portable executable
+        if: github.event_name != 'pull_request'
+        shell: pwsh
+        run: |
+          $version = (Get-Content package.json -Raw | ConvertFrom-Json).version
+          $env:TAXDISC_EXECUTABLE = Join-Path $pwd "release/TaxDisc-$version-x64-portable.exe"
+          $env:TAXDISC_SMOKE_CASE = 'scanned'
+          node test/electron-smoke.cjs
+      - name: Verify source and artifact consistency
+        if: github.event_name != 'pull_request'
+        run: npm run verify:release
+      - name: Install, test, and uninstall on the disposable runner
+        if: github.event_name != 'pull_request'
+        shell: pwsh
+        run: ./scripts/test-installer.ps1
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: github.event_name != 'pull_request'
+        with:
+          name: taxdisc-windows-x64
+          if-no-files-found: error
+          retention-days: 14
+          path: |
+            release/TaxDisc-*-x64-setup.exe
+            release/TaxDisc-*-x64-portable.exe
+            release/SHA256SUMS.txt
+            release/build-manifest.json
+            release/RELEASE-NOTES.md
+            release/LICENSE.txt
+
+  publish:
+    needs: verify
+    if: github.repository == 'Taxperia/TaxDisc' && github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: windows-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: taxdisc-windows-x64
+          path: release-artifacts
+      - name: Publish a complete, versioned release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: pwsh
+        run: |
+          $head = gh api "repos/$env:GITHUB_REPOSITORY/git/ref/heads/main" --jq '.object.sha'
+          if ($LASTEXITCODE -ne 0) { throw 'Could not verify the current main revision.' }
+          if ($head -ne $env:GITHUB_SHA) { Write-Host 'A newer main commit exists; publication skipped.'; exit 0 }
+          $manifest = Get-Content release-artifacts/build-manifest.json -Raw | ConvertFrom-Json
+          $tag = "v$($manifest.version)"
+          $existing = gh release view $tag --repo $env:GITHUB_REPOSITORY --json isDraft,targetCommitish 2>$null
+          $exists = $LASTEXITCODE -eq 0
+          if ($exists) {
+            $release = $existing | ConvertFrom-Json
+            if (-not $release.isDraft) { Write-Host 'This version is already published; assets remain immutable.'; exit 0 }
+            if ($release.targetCommitish -ne $env:GITHUB_SHA) { throw 'An unrelated draft already uses this tag.' }
+          } else {
+            gh release create $tag --repo $env:GITHUB_REPOSITORY --target $env:GITHUB_SHA --title "TaxDisc $($manifest.version)" --notes-file release-artifacts/RELEASE-NOTES.md --draft
+            if ($LASTEXITCODE -ne 0) { throw 'Could not create a draft release.' }
+          }
+          $assets = Get-ChildItem release-artifacts -File | ForEach-Object { $_.FullName }
+          gh release upload $tag @assets --repo $env:GITHUB_REPOSITORY --clobber
+          if ($LASTEXITCODE -ne 0) { throw 'Artifact upload failed; release remains a draft.' }
+          gh release edit $tag --repo $env:GITHUB_REPOSITORY --draft=false --latest
+          if ($LASTEXITCODE -ne 0) { throw 'Could not publish the completed release.' }

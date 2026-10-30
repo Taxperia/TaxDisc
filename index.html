@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'">
+<title>TaxDisc — Disk Haritası</title>
+<link rel="icon" href="assets/icon.png">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="map">
+<div class="window" id="window">
+  <aside class="sidebar" id="sidebar"></aside>
+
+  <main class="main">
+    <header class="main-head">
+      <div class="nav-arrows">
+        <button class="icon-btn" id="btn-back" title="Geri"></button>
+        <button class="icon-btn" id="btn-fwd" title="İleri"></button>
+      </div>
+      <div class="main-title">TaxDisc</div>
+      <div class="head-spacer"></div>
+    </header>
+
+    <div class="page">
+      <div class="page-head">
+        <div>
+          <h1 id="folder-title">Disk Analizi</h1>
+          <div class="rel-path">Henüz bir konum seçilmedi</div>
+        </div>
+        <div class="last-scan"><span>Son Tarama</span><b id="last-scan">—</b></div>
+      </div>
+
+      <div class="crumbs-band">
+        <nav class="crumbs" id="breadcrumbs"></nav>
+        <div class="stat-row">
+          <div class="stat"><span>Taranan</span><b id="stat-size">—</b></div>
+          <div class="stat"><span>Dosyalar</span><b id="stat-files">—</b></div>
+          <div class="stat"><span>Klasörler</span><b id="stat-folders">—</b></div>
+          <div class="stat"><span>Uyarılar</span><b id="stat-warnings" class="warn">—</b></div>
+        </div>
+      </div>
+
+      <div class="map-area" id="treemap"></div>
+
+      <div class="list-area">
+        <div class="list-toolbar">
+          <button class="pill-btn" id="contents-toggle">
+            <span class="ico" id="contents-ico"></span>
+            <span id="contents-label">Geçerli İçerik</span>
+            <span class="chev ico" id="contents-chev"></span>
+          </button>
+          <input class="filter-input" id="filter-input" type="text" placeholder="Geçerli içerikte filtrele" autocomplete="off">
+        </div>
+        <div class="menu" id="contents-menu">
+          <button data-mode="children">Geçerli İçerik <span class="check">✓</span></button>
+          <button data-mode="flat">Tüm Alt Öğeler <span class="check"></span></button>
+        </div>
+        <div class="list-scroll">
+          <table class="tbl" id="contents-table">
+            <thead>
+              <tr>
+                <th>Ad</th>
+                <th class="col-alloc sortable" id="sort-alloc">Boyut <span class="arr" id="sort-arr">▼</span></th>
+                <th class="col-kind">Tür</th>
+                <th class="col-files">Dosyalar</th>
+                <th class="col-mod">Değiştirilme</th>
+              </tr>
+            </thead>
+            <tbody id="contents-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="notice" id="notice-bar">
+        <span class="ico" id="notice-ico"></span>
+        <div class="n-text">
+          <b id="notice-text">Analize başlamak için bir klasör veya sürücü seçin.</b>
+          <div class="path">Tarama verileri yalnızca bu bilgisayarda tutulur.</div>
+        </div>
+        <button class="icon-btn dismiss" id="notice-dismiss" title="Kapat"></button>
+      </div>
+    </div>
+  </main>
+
+  <aside class="inspector" id="inspector"></aside>
+</div>
+
+<script src="js/i18n.js"></script>
+<script src="js/icons.js"></script>
+<script src="js/data.js"></script>
+<script src="js/csv.js"></script>
+<script src="js/temp-rules.js"></script>
+<script src="js/common.js"></script>
+<script src="js/treemap.js"></script>
+<script src="js/scan-index.js"></script>
+<script src="js/scanner.js"></script>
+<script src="js/main.js"></script>
+<script src="js/init-index.js"></script>
+</body>
+</html>

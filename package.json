@@ -1,0 +1,97 @@
+{
+  "name": "taxdisc",
+  "version": "1.2.0",
+  "description": "A local-first Windows disk analyzer with interactive treemaps, large-file discovery, review lists, and English/Turkish support.",
+  "main": "electron/main.cjs",
+  "author": "Taxperia",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test test/*.test.cjs",
+    "smoke": "node test/electron-smoke.cjs",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder --win nsis portable",
+    "benchmark": "node scripts/benchmark.cjs",
+    "verify:release": "node scripts/verify-release.cjs",
+    "postinstall": "node node_modules/electron/install.js",
+    "lint": "node scripts/check-source.cjs",
+    "test:all": "npm run lint && npm test && npm run smoke",
+    "repo:metadata": "node scripts/repository-metadata.cjs"
+  },
+  "devDependencies": {
+    "acorn": "8.15.0",
+    "electron": "44.9.1",
+    "electron-builder": "26.18.0"
+  },
+  "build": {
+    "appId": "com.taxperia.taxdisc",
+    "productName": "TaxDisc",
+    "asar": true,
+    "files": [
+      "*.html",
+      "css/**/*",
+      "js/**/*",
+      "electron/**/*",
+      "assets/**/*",
+      "package.json",
+      "LICENSE",
+      "README.md",
+      "SECURITY.md",
+      "CONTRIBUTING.md",
+      "CODE_OF_CONDUCT.md"
+    ],
+    "directories": {
+      "output": "release"
+    },
+    "win": {
+      "icon": "assets/icon.png",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "requestedExecutionLevel": "asInvoker"
+    },
+    "nsis": {
+      "artifactName": "TaxDisc-${version}-${arch}-setup.${ext}",
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "TaxDisc",
+      "installerLanguages": [
+        "en_US",
+        "tr_TR"
+      ]
+    },
+    "portable": {
+      "artifactName": "TaxDisc-${version}-${arch}-portable.${ext}"
+    },
+    "electronDist": "node_modules/electron/dist",
+    "afterAllArtifactBuild": "scripts/after-build.cjs"
+  },
+  "allowScripts": {
+    "electron-winstaller@5.4.0": false
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "homepage": "https://github.com/Taxperia/TaxDisc",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Taxperia/TaxDisc.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Taxperia/TaxDisc/issues"
+  }
+}

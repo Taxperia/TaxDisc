@@ -1,0 +1,31 @@
+name: Bug report
+description: Report a reproducible TaxDisc problem using non-sensitive examples.
+title: '[Bug]: '
+body:
+  - type: markdown
+    attributes:
+      value: 'For security issues, follow SECURITY.md. Remove private paths, usernames, and file contents before submitting.'
+  - type: input
+    id: version
+    attributes:
+      label: TaxDisc version
+    validations:
+      required: true
+  - type: input
+    id: windows
+    attributes:
+      label: Windows version and package type
+      placeholder: Windows 11 x64, portable
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Use a disposable example folder where possible.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected and actual behavior
+    validations:
+      required: true

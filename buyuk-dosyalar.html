@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'">
+<title>TaxDisc — Büyük Dosyalar</title>
+<link rel="icon" href="assets/icon.png">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="large">
+<div class="window" id="window">
+  <aside class="sidebar" id="sidebar"></aside>
+
+  <main class="main">
+    <header class="main-head">
+      <div class="nav-arrows">
+        <button class="icon-btn" disabled></button>
+        <button class="icon-btn" disabled></button>
+      </div>
+      <div class="main-title">TaxDisc</div>
+      <div class="head-spacer"></div>
+    </header>
+
+    <div class="page scroll-page">
+      <div class="page-head">
+        <div>
+          <h1>Büyük Dosyalar</h1>
+          <div class="rel-path">Disk genelinde boyuta göre sıralı tarama</div>
+        </div>
+        <div class="last-scan"><span>Son Tarama</span><b id="last-scan">—</b></div>
+      </div>
+
+      <div class="crumbs-band">
+        <nav class="crumbs"><span class="cur">Taranan Konum</span></nav>
+        <div class="stat-row">
+          <div class="stat"><span>Taranan Alan</span><b id="st-total">—</b></div>
+          <div class="stat"><span>100 MB+ Dosya</span><b id="st-count">—</b></div>
+          <div class="stat"><span>Kapsadıkları Yer</span><b id="st-sum">—</b></div>
+          <div class="stat"><span>En Büyük</span><b id="st-biggest" style="font-size:13px;line-height:1.5">—</b></div>
+        </div>
+      </div>
+
+      <div class="page-body">
+        <div class="toolbar">
+          <span id="min-chips" style="display:flex;gap:8px;flex-wrap:wrap"></span>
+          <span style="width:10px"></span>
+          <span id="type-chips" style="display:flex;gap:8px;flex-wrap:wrap"></span>
+          <span class="spacer"></span>
+          <input class="filter-input" id="search-input" type="text" placeholder="Dosya adı ara" autocomplete="off">
+        </div>
+
+        <div class="card" style="margin-bottom:14px">
+          <h3><span class="ico"></span>En Büyük 10 Dosya <span style="margin-left:auto;font-weight:400;font-size:12px;color:var(--text-3)" id="large-count"></span></h3>
+          <div class="bar-list" id="top-bars"></div>
+        </div>
+
+        <div class="card" style="padding:0;overflow:hidden">
+          <div class="table-scroll">
+          <table class="tbl">
+            <thead>
+              <tr>
+                <th>Ad</th>
+                <th class="col-kind">Tür</th>
+                <th class="col-alloc">Boyut</th>
+                <th class="col-mod">Değiştirilme</th>
+                <th class="col-loc">Klasör</th>
+              </tr>
+            </thead>
+            <tbody id="large-body"></tbody>
+          </table>
+          </div>
+        </div>
+
+        <div class="notice in-list">
+          <span class="ico"></span>
+          <div class="n-text"><b>Büyük dosyaları silmeden önce yedeklemeniz önerilir.</b>
+            <div class="path">Silmek yerine Ayıklama Yığınına ekleyip sonra gözden geçirebilirsiniz.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <aside class="inspector" id="inspector"></aside>
+</div>
+
+<script src="js/i18n.js"></script>
+<script src="js/icons.js"></script>
+<script src="js/data.js"></script>
+<script src="js/csv.js"></script>
+<script src="js/temp-rules.js"></script>
+<script src="js/common.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/scan-index.js"></script>
+<script src="js/scanner.js"></script>
+<script src="js/large.js"></script>
+<script src="js/init-buyuk-dosyalar.js"></script>
+</body>
+</html>

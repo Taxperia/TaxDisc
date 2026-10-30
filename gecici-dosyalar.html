@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'">
+<title>TaxDisc — Geçici Dosyalar</title>
+<link rel="icon" href="assets/icon.png">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="temp">
+<div class="window" id="window">
+  <aside class="sidebar" id="sidebar"></aside>
+
+  <main class="main">
+    <header class="main-head">
+      <div class="nav-arrows">
+        <button class="icon-btn" disabled></button>
+        <button class="icon-btn" disabled></button>
+      </div>
+      <div class="main-title">TaxDisc</div>
+      <div class="head-spacer"></div>
+    </header>
+
+    <div class="page scroll-page">
+      <div class="page-head">
+        <div>
+          <h1>Geçici Dosyalar</h1>
+          <div class="rel-path">Konum ve dosya adına göre inceleme adayları</div>
+        </div>
+        <div class="last-scan"><span>Son Tarama</span><b id="last-scan">—</b></div>
+      </div>
+
+      <div class="crumbs-band">
+        <nav class="crumbs"><span class="cur">Taranan Konum</span></nav>
+        <div class="stat-row">
+          <div class="stat"><span>İncelenecek</span><b id="t-total" style="color:var(--accent)">—</b></div>
+          <div class="stat"><span>Disk Payı</span><b id="t-pct">—</b></div>
+          <div class="stat"><span>Riskli Öğeler</span><b id="t-risky" style="color:#ff736a">—</b></div>
+          <div class="stat"><span>Planlanan</span><b id="t-cleaned" style="color:#45d465">—</b></div>
+        </div>
+      </div>
+
+      <div class="page-body">
+        <div class="toolbar">
+          <span id="risk-chips" style="display:flex;gap:8px;flex-wrap:wrap"></span>
+          <span class="spacer"></span>
+          <button class="btn primary" id="clean-all" style="height:30px;font-size:12.5px"><span class="ic"></span>Görünenleri Listeye Ekle</button>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <h3><span class="ico"></span>Kategori Dağılımı</h3>
+            <div class="donut-wrap">
+              <canvas id="temp-donut" data-size="180"></canvas>
+              <div class="legend" id="donut-legend"></div>
+            </div>
+          </div>
+          <div class="card" style="display:flex;flex-direction:column;justify-content:center;text-align:left">
+            <h3><span class="ico"></span>Nasıl Değerlendirilir?</h3>
+            <div class="meta-card" style="background:transparent;padding:0">
+              <div class="meta-row"><span>Uygulama ve tarayıcı önbellekleri</span><b>İnceleyin</b></div>
+              <div class="meta-row"><span>Çöp kutusu içeriği</span><b>Dikkatli inceleyin</b></div>
+              <div class="meta-row"><span>Loglar ve geliştirici artefaktları</span><b style="color:var(--warn)">Dikkat</b></div>
+              <div class="meta-row"><span>Aktif sistem geçici dosyaları</span><b style="color:#ff736a">Riskli</b></div>
+              <div class="meta-row"><span>Klasör adı ve konumu, içindeki dosyaların silinmesinin güvenli olduğunu kanıtlamaz.</span><b style="font-size:11px">Not</b></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="temp-grid" id="temp-cats"></div>
+
+        <div class="notice in-list">
+          <span class="ico"></span>
+          <div class="n-text"><b>Temizlik planı diskteki dosyaları otomatik olarak silmez.</b>
+            <div class="path">Listelenen konumları sistemde açıp kendiniz gözden geçirebilirsiniz.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <aside class="inspector" id="inspector"></aside>
+</div>
+
+<script src="js/i18n.js"></script>
+<script src="js/icons.js"></script>
+<script src="js/data.js"></script>
+<script src="js/csv.js"></script>
+<script src="js/temp-rules.js"></script>
+<script src="js/common.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/scan-index.js"></script>
+<script src="js/scanner.js"></script>
+<script src="js/temp.js"></script>
+<script src="js/init-gecici-dosyalar.js"></script>
+</body>
+</html>
