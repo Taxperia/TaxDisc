@@ -20,7 +20,7 @@
     "repo:metadata": "node scripts/repository-metadata.cjs"
   },
   "devDependencies": {
-    "acorn": "8.15.0",
+    "acorn": "8.19.0",
     "electron": "44.9.1",
     "electron-builder": "26.18.0"
   },
