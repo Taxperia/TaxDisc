@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "acorn": "8.15.0",
-    "electron": "44.9.1",
+    "electron": "45.1.0",
     "electron-builder": "26.18.0"
   },
   "build": {
